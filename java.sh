@@ -1,0 +1,1 @@
+pathmunge /opt/java/bin/
