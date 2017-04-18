@@ -56,7 +56,7 @@ RUN mkdir -p "${CONFLUENCE_HOME}" && \
 
 # Expose default HTTP connector port.
 EXPOSE 8090
-#EXPOSE 8091
+EXPOSE 8091
 
 # Set volume mount points for installation and home directory. Changes to the
 # home directory needs to be persisted as well as parts of the installation
