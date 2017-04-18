@@ -1,0 +1,7 @@
+#!/bin/sh
+
+#JAVA_HOME=/opt/java/
+#export JAVA_HOME
+/opt/atlassian/confluence/bin/catalina.sh run
+
+#./bin/catalina.sh run

@@ -1,8 +1,14 @@
 #!/bin/sh
 
+# update server.xml
+xmlstarlet ed \
+  --insert Server/Service/Connector[@port=8090] --type attr -n proxyName -v ${CATALINA_CONNECTOR_PROXYNAME} \
+  --insert Server/Service/Connector[@port=8090] --type attr -n proxyPort -v ${CATALINA_CONNECTOR_PROXYPORT} \
+  --insert Server/Service/Connector[@port=8090] --type attr -n scheme -v ${CATALINA_CONNECTOR_SCHEME} \
+  conf/server.xml.orig > conf/server.xml
+
+
 JAVA_HOME=/opt/java/
 export JAVA_HOME
-/opt/atlassian/confluence/bin/catalina.sh run
-
-#./bin/catalina.sh run
-#yes
+./bin/catalina.sh run
+#/opt/atlassian/confluence/bin/catalina.sh run
