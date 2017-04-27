@@ -4,8 +4,7 @@ MAINTAINER sysadmin@mimacom.com
 # Setup useful environment variables
 ENV CONFLUENCE_HOME     /var/atlassian/application-data/confluence
 ENV CONFLUENCE_INSTALL  /opt/atlassian/confluence
-#ENV CONF_VERSION 6.1.2
-ENV CONF_VERSION 5.10.8
+ENV CONF_VERSION 5.9.14
 
 LABEL Description="This image is used to start Atlassian Confluence" Vendor="Atlassian" Version="${CONF_VERSION}"
 
@@ -18,10 +17,9 @@ ENV RUN_USER            daemon
 ENV RUN_GROUP           daemon
 
 # Reverse proxy environment variables
-#ENV CATALINA_CONNECTOR_PROXYNAME
-#ENV CATALINA_CONNECTOR_PROXYPORT
+ENV CATALINA_CONNECTOR_PROXYNAME=
+ENV CATALINA_CONNECTOR_PROXYPORT=
 ENV CATALINA_CONNECTOR_SCHEME http
-
 
 # download oracle jre8
 RUN yum update -y && \
@@ -65,13 +63,6 @@ VOLUME ["${CONFLUENCE_INSTALL}", "${CONFLUENCE_HOME}"]
 
 # Set the default working directory as the Confluence installation directory.
 WORKDIR ${CONFLUENCE_INSTALL}
-
-# Run Atlassian Confluence as a foreground process by default.
-#CMD ["./bin/catalina.sh", "run"]
-#ENTRYPOINT ["./bin/catalina.sh" ]
-
-    
-
 
 # install the entrypoint
 COPY entrypoint /entrypoint
