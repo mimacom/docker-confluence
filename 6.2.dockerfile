@@ -70,3 +70,4 @@ RUN chmod 755 /entrypoint
 
 # start
 ENTRYPOINT ["/entrypoint"]
+
