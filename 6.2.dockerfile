@@ -4,7 +4,7 @@ MAINTAINER sysadmin@mimacom.com
 # Setup useful environment variables
 ENV CONFLUENCE_HOME     /var/atlassian/application-data/confluence
 ENV CONFLUENCE_INSTALL  /opt/atlassian/confluence
-ENV CONF_VERSION 6.2.0
+ENV CONF_VERSION 6.2.1
 
 LABEL Description="This image is used to start Atlassian Confluence" Vendor="Atlassian" Version="${CONF_VERSION}"
 
@@ -50,7 +50,7 @@ RUN mkdir -p "${CONFLUENCE_HOME}" && \
 # Use the default unprivileged account. This could be considered bad practice
 # on systems where multiple processes end up being executed by 'daemon' but
 # here we only ever run one process anyway.
-#USER ${RUN_USER}:${RUN_GROUP}
+USER ${RUN_USER}:${RUN_GROUP}
 
 # Expose default HTTP connector port.
 EXPOSE 8090
