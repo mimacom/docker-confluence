@@ -37,6 +37,7 @@ RUN yum update -y && \
     rm -rf /var/cache/yum/* && \
     mkdir -p /opt/java && \
     wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/"${VERSION}"u"${UPDATE}"-b"${BUILD}"/"${SIG}"/jre-"${VERSION}"u"${UPDATE}"-linux-x64.tar.gz -O /opt/jre.tar.gz && \
+    tar xfv /opt/jre.tar.gz -C /opt/java/ --strip-components=1 && \
     rm -f /opt/jre.tar.gz
 
 # add java to PATH
