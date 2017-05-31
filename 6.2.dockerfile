@@ -25,6 +25,10 @@ ENV CATALINA_CONNECTOR_PROXYNAME=
 ENV CATALINA_CONNECTOR_PROXYPORT=
 ENV CATALINA_CONNECTOR_SCHEME http
 
+# install the entrypoint
+COPY entrypoint /entrypoint
+RUN chmod 755 /entrypoint
+
 # download oracle jre8
 RUN yum update -y && \
     yum install -y epel-release && \
@@ -67,10 +71,6 @@ VOLUME ["${CONFLUENCE_INSTALL}", "${CONFLUENCE_HOME}"]
 
 # Set the default working directory as the Confluence installation directory.
 WORKDIR ${CONFLUENCE_INSTALL}
-
-# install the entrypoint
-COPY entrypoint /entrypoint
-RUN chmod 755 /entrypoint
 
 # start
 ENTRYPOINT ["/entrypoint"]
