@@ -5,10 +5,14 @@ MAINTAINER sysadmin@mimacom.com
 ENV CONFLUENCE_HOME     /var/atlassian/application-data/confluence
 ENV CONFLUENCE_INSTALL  /opt/atlassian/confluence
 ENV CONF_VERSION 6.1.3
-
 LABEL Description="This image is used to start Atlassian Confluence" Vendor="Atlassian" Version="${CONF_VERSION}"
-
 ENV CONFLUENCE_DOWNLOAD_URL http://www.atlassian.com/software/confluence/downloads/binary/atlassian-confluence-${CONF_VERSION}.tar.gz
+
+# Java
+ENV VERSION 8
+ENV UPDATE 131
+ENV BUILD 11
+ENV SIG d54c1d3a095b4ff2b6607d096fa80163
 
 # Use the default unprivileged account. This could be considered bad practice
 # on systems where multiple processes end up being executed by 'daemon' but
@@ -21,13 +25,18 @@ ENV CATALINA_CONNECTOR_PROXYNAME=
 ENV CATALINA_CONNECTOR_PROXYPORT=
 ENV CATALINA_CONNECTOR_SCHEME http
 
+# install the entrypoint
+COPY entrypoint /entrypoint
+RUN chmod 755 /entrypoint
+
 # download oracle jre8
 RUN yum update -y && \
     yum install -y epel-release && \
-    yum install -y wget xmlstarlet && \
+    # graphviz is needed for PlantUML plugin
+    yum install -y wget xmlstarlet graphviz && \
     rm -rf /var/cache/yum/* && \
     mkdir -p /opt/java && \
-    wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jre-8u121-linux-x64.tar.gz" -O /opt/jre.tar.gz && \
+    wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/"${VERSION}"u"${UPDATE}"-b"${BUILD}"/"${SIG}"/jre-"${VERSION}"u"${UPDATE}"-linux-x64.tar.gz -O /opt/jre.tar.gz && \
     tar xfv /opt/jre.tar.gz -C /opt/java/ --strip-components=1 && \
     rm -f /opt/jre.tar.gz
 
@@ -50,7 +59,7 @@ RUN mkdir -p "${CONFLUENCE_HOME}" && \
 # Use the default unprivileged account. This could be considered bad practice
 # on systems where multiple processes end up being executed by 'daemon' but
 # here we only ever run one process anyway.
-#USER ${RUN_USER}:${RUN_GROUP}
+USER ${RUN_USER}:${RUN_GROUP}
 
 # Expose default HTTP connector port.
 EXPOSE 8090
@@ -64,9 +73,6 @@ VOLUME ["${CONFLUENCE_INSTALL}", "${CONFLUENCE_HOME}"]
 # Set the default working directory as the Confluence installation directory.
 WORKDIR ${CONFLUENCE_INSTALL}
 
-# install the entrypoint
-COPY entrypoint /entrypoint
-RUN chmod 755 /entrypoint
-
 # start
 ENTRYPOINT ["/entrypoint"]
+
