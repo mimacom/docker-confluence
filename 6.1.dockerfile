@@ -1,4 +1,4 @@
-FROM centos:7
+FROM mimacomops/centos7-java:jdk8-oracle
 MAINTAINER sysadmin@mimacom.com
 
 # Setup useful environment variables
@@ -7,12 +7,6 @@ ENV CONFLUENCE_INSTALL  /opt/atlassian/confluence
 ENV CONF_VERSION 6.1.3
 LABEL Description="This image is used to start Atlassian Confluence" Vendor="Atlassian" Version="${CONF_VERSION}"
 ENV CONFLUENCE_DOWNLOAD_URL http://www.atlassian.com/software/confluence/downloads/binary/atlassian-confluence-${CONF_VERSION}.tar.gz
-
-# Java
-ENV VERSION 8
-ENV UPDATE 131
-ENV BUILD 11
-ENV SIG d54c1d3a095b4ff2b6607d096fa80163
 
 # Use the default unprivileged account. This could be considered bad practice
 # on systems where multiple processes end up being executed by 'daemon' but
@@ -33,15 +27,8 @@ RUN chmod 755 /entrypoint
 RUN yum update -y && \
     yum install -y epel-release && \
     # graphviz is needed for PlantUML plugin
-    yum install -y wget xmlstarlet graphviz && \
-    rm -rf /var/cache/yum/* && \
-    mkdir -p /opt/java && \
-    wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/"${VERSION}"u"${UPDATE}"-b"${BUILD}"/"${SIG}"/jre-"${VERSION}"u"${UPDATE}"-linux-x64.tar.gz -O /opt/jre.tar.gz && \
-    tar xfv /opt/jre.tar.gz -C /opt/java/ --strip-components=1 && \
-    rm -f /opt/jre.tar.gz
-
-# add java to PATH
-COPY java.sh /etc/profile.d/java.sh
+    yum install -y xmlstarlet graphviz && \
+    rm -rf /var/cache/yum/*
 
 # download confluence
 RUN mkdir -p "${CONFLUENCE_HOME}" && \
