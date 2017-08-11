@@ -19,6 +19,6 @@ then
 fi
 
 
-JAVA_HOME=/opt/java/
-export JAVA_HOME
+export JAVA_HOME=/opt/java/
+export CATALINA_OPTS="-Dconfluence.document.conversion.fontpath=/usr/share/fonts/msttcore"
 ./bin/catalina.sh run

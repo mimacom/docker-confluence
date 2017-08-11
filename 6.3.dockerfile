@@ -26,9 +26,16 @@ RUN chmod 755 /entrypoint
 # download oracle jre8
 RUN yum update -y && \
     yum install -y epel-release && \
+
     # graphviz is needed for PlantUML plugin
     yum install -y xmlstarlet graphviz && \
+
+    # dependency for installing windows fonts
+    yum install -y curl cabextract xorg-x11-font-utils fontconfig && \
     rm -rf /var/cache/yum/*
+
+# install windows fonts
+RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 
 # download confluence
 RUN mkdir -p "${CONFLUENCE_HOME}" && \
