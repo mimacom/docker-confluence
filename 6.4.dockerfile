@@ -1,4 +1,4 @@
-FROM mimacomops/centos7-java:jdk8-oracle
+FROM mimacom/centos7-java:oraclejdk-8u151-b12
 MAINTAINER sysadmin@mimacom.com
 
 # Setup useful environment variables
