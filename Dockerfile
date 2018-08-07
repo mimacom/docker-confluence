@@ -59,14 +59,8 @@ USER ${RUN_USER}:${RUN_GROUP}
 EXPOSE 8090
 EXPOSE 8091
 
-# Set volume mount points for installation and home directory. Changes to the
-# home directory needs to be persisted as well as parts of the installation
-# directory due to eg. logs.
-VOLUME ["${CONFLUENCE_INSTALL}", "${CONFLUENCE_HOME}"]
-
 # Set the default working directory as the Confluence installation directory.
 WORKDIR ${CONFLUENCE_INSTALL}
 
 # start
 ENTRYPOINT ["/entrypoint"]
-
