@@ -18,7 +18,14 @@ then
   xmlstarlet ed --inplace --insert Server/Service/Connector[@port=8090] --type attr -n scheme -v ${CATALINA_CONNECTOR_SCHEME:-} conf/server.xml
 fi
 
-export CATALINA_OPTS="-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
+# passing through sigkill to child process
+# see: https://veithen.github.io/2014/11/16/sigterm-propagation.html
+trap 'kill -TERM $PID' TERM INT
 
+export CATALINA_OPTS="-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
 export JAVA_HOME=/opt/java/
-./bin/catalina.sh run
+./bin/catalina.sh run &
+wait $PID
+trap - TERM INT
+wait $PID
+EXIT_STATUS=$?
