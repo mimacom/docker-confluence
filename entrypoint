@@ -26,6 +26,7 @@ fi
 export CATALINA_OPTS="-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
 export JAVA_HOME=/opt/java/
 ./bin/catalina.sh run &
+PID=$!
 wait $PID
 trap - TERM INT
 wait $PID
