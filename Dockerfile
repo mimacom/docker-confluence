@@ -1,4 +1,4 @@
-FROM atlassian/confluence-server:6.15.9-ubuntu-18.04-adoptopenjdk8
+FROM atlassian/confluence-server:7.1.1
 LABEL maintainer="sysadmin@flowable.com"
 
 # install dependencies for PlantUML plugin
