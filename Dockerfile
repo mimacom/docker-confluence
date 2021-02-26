@@ -1,4 +1,4 @@
-#
+##
 FROM atlassian/confluence-server:7.4.7
 LABEL maintainer="sysadmin@flowable.com"
 
